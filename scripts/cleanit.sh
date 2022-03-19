@@ -33,36 +33,40 @@ TargetDIR="$HOME/Development"
 #[ -d "$TargetDIR" ] && cd "$TargetDIR" || exit 1
 
 cd "$TargetDIR" || exit 1
-dump=$(find . -print0 -name "$Target" -type d -prune | xargs du -hs)
+dump=$(find . -name "$Target" -type d -print0 -prune | xargs -0 du -hs)
 
 # find "$TargetDIR" -name "$Target" -type d -prune | xargs du -chs
 
 test=$( echo  "$dump" | grep  "$Target" - )
-if [ ! -z  "$test" ]
+if [ -n  "$test" ]
 then
     # code if found
     echo -e "\nFound $G$Target$NC \n This may take awhile\n"
     echo "size      Location"
     echo "----------------------------------"
-    find "$TargetDIR" -print0 -name "$Target" -type d -prune | xargs du -chs
+    find "$TargetDIR" -name "$Target" -type d -print0 -prune | xargs -0 du -chs
     echo "----------------------------------"
 else
     # code if not found
-     echo -e "No $R $Target $NC found\n"
-     exit 1
+    echo -e "No $R $Target $NC found\n"
+    exit 1
 fi
 msg="DELETE ALL $C $Target $NC Under $Y $TargetDIR/. $NC? [y/N] "
 
-read -r -p "$(echo -e $msg)" response
+read -r -p "$(echo -e "$msg")" response
 case "$response" in
     [yY][eE][sS]|[yY])
         echo -e "removing $C $Target $NC \n"
-        #find . -name "node_modules" -type d -prune -exec rm -rf '{}' +
+        FIXME #1
+        
+        # Instead of DELETING - lets place them in TRASH?
+        #find . -name "node_modules" -type d  -print0 -prune -exec rm -rf '{}' +   # RISKY for ALL OR NOTHING.
+        
         echo "ALL DELETED"
-
-        ;;
+        
+    ;;
     *)
         echo "no space saved"
         exit 1
-        ;;
+    ;;
 esac
