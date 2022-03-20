@@ -24,7 +24,7 @@ INSERT EXAMPLE HERE
 <details>
 <summary>bashit</summary>
 
-Bash history Dump (bshd) aims to be a small script to manage bash history with a set of purposful set of added features.
+Bash history Dump (bshd) aims to be a small script to manage bash history with a purposful set of added features.
 
 [more>](./scripts/bashit.md)
 
