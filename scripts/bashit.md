@@ -1,4 +1,4 @@
-# BashIT  a Bash History Dump #
+# History Dump #
 
 **This is a Project idea - research & work in progress.**
 
