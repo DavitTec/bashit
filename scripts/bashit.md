@@ -1,20 +1,27 @@
-# History Dump #
+# HistIT
 
 **This is a Project idea - research & work in progress.**
 
-Bash history Dump (bshd) aims to be a small script to manage bash history with a purposful set of added features.
+HistIT aims to enhance Bash ```history```. 
+The goal is to be a script to enhance and manage bash history with a purposeful set of added features.
 
-By adding some additional tags in the command line terminal, **bshd** can turn your instructions, commands or text into other features.
+By adding some additional tags in your command line terminal, **histit** can turn your instructions, commands or text into other features.
 
-As terminal activity records terminal input in a dot file like
-``` 
-.bash_history 
-```
-these lines of text and or commands or any input can be manipulate for later use and organised into other extendable features 
-like creating a short Bash shell script or even Todo notes. 
+As terminal activity records terminal input in a dot file like ```.bash_history```  these lines of text and or commands or any input can be manipulate for later use and organised into other extendable features 
+like creating a short Bash shell script or even Todo lists. 
 
-The script relies on a set of Unique TAGS. so the idea of adding these tags during typing and not interfear work flow, coding or visual effects.  
-This idea is considering a 😏Smilie/emoji tags or extended characters. 
+The script relies on a set of Unique TAGS. So one idea of adding these tags during typing and not interfere with work flow, coding or visual effects.  
+This idea is considering a 😏Smilie/emoji like tags, extended characters or character group like: ```#!$-1!``` or ```#!$-1main1!```  
+However, we have not decided on the TAG steps yet.
+
+As most developers would use other development platforms for designing and testing script. The goal of the project may not endup being beneficial. However, some amatures like myself, then to type notes, test code snippets and keep records of simple commands and or use the history file for repeated command sequences or as an aid for more complicated applications, calculations,  file manipulation, self notes or one line very complex regex search.
+
+The idea of scripts is to help reduce repeated tasks or workloads.  The steps to make a script is from a very simple idea, but testing is usually done on the command line.  Old coders, like myself, relied 100% on the command line and not use any IDEs. However, the main difference between C and C++ is about structured coding. Of course SHELL commands are simple and limited.  But from the basis of one line complex operation before moving into more powerful languages like C, PERL, fortran etc. Terminal commands is the quickest tool for testing. However, **C** for example was and still is more efficient then its relative successor, ***c++***. So the dilema here with command line recording into a History file, is to consider that unorganised unstructured efficent coding may end up as structured scripts. This happens with the aid of good commentary and documetation. This is what a History file should include, but does not. So I basis this project on this need for adding commentary.    
+
+The ```Basit``` is a series of scripts that may merge into a integrated set of tools to aid daily repetitive housekeeping chores and or just fixing a jumbled mess or clutter.
+
+The phrase of "How did I do that!" may crop up time and time again, so it may be nice to see it in action and let the HistIT redo or ```play``` some keystrokes and watch what happend.  We assume if we dont change anything, a recorded script/keystrokes can present the same outcome, in theory!  However, in many cases our development environment changes in the background (always) and logging those changes may not always be possible. Therefore a ```play``` tool may be a useful tool for analysis. The other useful tool is convert last set of commands into a seperate shell script in a nice neat format. As we expand some more features that use Bash history, like ToDo, this pack of tools may end up with the following features.
+
 
 ## AIMS ##
 
@@ -56,14 +63,5 @@ This idea is considering a 😏Smilie/emoji tags or extended characters.
 - ARCHIVE
   - Saving history to a database or code snippets.
 
-
-
-
-
-
-
-
-   
-
 ---
-
+## REFERENCES
