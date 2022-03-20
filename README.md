@@ -13,6 +13,20 @@ The quick way to cleanup and free some space when working with NPM dev projects.
 
 This script will find all __node-modules__ and display the space and allow for deletion.
 
+[more>](./scripts/cleanit.md)
+  
+<div align="center">
+INSERT EXAMPLE HERE
+
+</div>
+
+</details>
+<details>
+<summary>bashit</summary>
+
+Bash history Dump (bshd) aims to be a small script to manage bash history with a set of purposful set of added features.
+
+[more>](./scripts/bashit.md)
 
 <div align="center">
 INSERT EXAMPLE HERE
