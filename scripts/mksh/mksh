@@ -1,0 +1,104 @@
+#! /usr/bin/env bash
+# HEADER
+# AUTHOR: David Mullins (David@davit.ie)
+# Business: DAVIT
+# Makes an Bash Shell script ($1.sh) from last $2 lines of Bash history
+version=0.0.3
+# Recommend setting Environment variables
+# using export <AUTHOR_EMAIL="<your email>" or
+# Change the default values here.
+#
+me=$(basename "$0")
+shortdesc="Makes an Bash Shell script ($1.sh) from last $2 lines of Bash history"
+NC="\033[0m"
+R="\033[31m"
+Y="\033[33m"
+G="\033[32m"
+C="\033[36m"
+AUTHOR="${AUTHOR:="A N Other"}"
+AUTHOR_EMAIL="${AUTHOR_EMAIL:="another@example.com"}"
+AUTHOR_BIZ="${AUTHOR_BIZ:='Another Inc.'}"
+YEAR=$(date +%Y)
+FILE="${1:-default}"
+hist="${2:-0}"
+thisVersion=${thisVersion:="0.0.1"}
+
+
+_top(){
+    
+    echo ""
+    echo -e "$me-$version\n$shortdesc\n"
+    printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' =
+}
+
+xon(){
+    chmod +x "$1"
+    echo -e "$G$FILE.sh$Y is now excutable$NC\n"
+}
+
+xoff(){
+    chmod -x "$1"   #excutable disables
+}
+
+usage(){
+    echo "
+-  Makes a small script template and
+   optionally
+    include set lines from Bash history"
+    
+    oldfile=$([ -f "$FILE.sh" ]  && "$FILE"-"$currentVersion")
+    
+    echo "
+   -Usage
+      mksh.sh <scriptname|default=\"default\"> <bash hist #|default=0>
+
+File is \"$FILE\" as version $version and History lines are $hist
+ Old version was saved as $oldfile
+    "
+    
+}
+
+_name(){
+    local FILE="$1"
+    if [ -f "$FILE.sh" ]; then
+        currentVersion=$( grep "version" "$FILE.sh" |\
+        awk -F= '$1=="version"{print $2}')
+        thisVersion=$(grep "version" "$FILE.sh" |\
+            gawk -F"." '{$NF+=1}{print $0 RT}' OFS="." ORS=""|\
+        awk -F= '$1=="version"{print $2}')
+        mv "$FILE.sh" "$FILE-$currentVersion"
+        xoff "$FILE-$currentVersion"  # remove execute
+        echo -e "SCRIPT named: $C$FILE.sh$NC \n     version: $G$thisVersion$NC"
+        echo -e "        NOTE: old version: $R$FILE-$currentVersion$NC"
+    else
+        echo -e "SCRIPT named: $C$FILE.sh$NC -- version: $G$thisVersion$NC"
+    fi
+    thisVersion=${thisVersion:="0.0.1"}
+}
+
+create(){
+    local FILE="$1"
+    local hist="$hist"
+    
+cat <<EOF > ./"$FILE.sh"
+#! /usr/bin/env bash
+# HEADER
+# AUTHOR: $AUTHOR ($AUTHOR_EMAIL)
+# LICENSE: $YEAR (C) $AUTHOR_BIZ
+version=$thisVersion
+EOF
+    
+    # tail -$hist  ${HOME}/.bash_history | cut -c 8- | sed -e '$ d' >> ./"$FILE.sh" # If using history instead of bash_history
+    tail -"$hist"  "${HOME}"/.bash_history | sed -e '$ d' >> ./"$FILE.sh"
+    echo -e "$FILE.sh created with $hist lines from Bash History "
+    #printf "%s.sh created\n" "$FILE"
+    xon "$FILE.sh"  # make execultable
+}
+
+#make dot sh
+_top
+_name "$FILE"
+#usage
+create "$FILE" "$hist"
+
+exit 0
