@@ -24,6 +24,22 @@ INSERT EXAMPLE HERE
 <details>
 <summary>bashit</summary>
 
+Makes an Bash Shell script with the last # of lines from Bash history.
+  Note ".sh" extention is added to <name>  
+  Usage: 
+  ```mksh <name> <number>```
+
+[more>](./scripts/mksh/mksh.md)
+
+<div align="center">
+INSERT EXAMPLE HERE
+
+</div>
+
+</details>
+<details>
+<summary></summary>
+
 Bash history Dump (bshd) aims to be a small script to manage bash history with a purposful set of added features.
 
 [more>](./scripts/histit.md)
