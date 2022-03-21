@@ -55,9 +55,9 @@ For this we use the ```wc``` command[^1]
 ## Mark blocks
 
 ## References
-[#1]: [To learn more about Extended **Markdown**](https://wordpress.com/support/markdown-quick-reference/) for using footnotes, reference, biblio etc.
+[#Ref1]: [To learn more about Extended **Markdown**](https://wordpress.com/support/markdown-quick-reference/) for using footnotes, reference, biblio etc.
 
-[#2]: [How to increment version number in a shell script?](https://stackoverflow.com/questions/8653126/how-to-increment-version-number-in-a-shell-script)
+[#Ref2]: [How to increment version number in a shell script?](https://stackoverflow.com/questions/8653126/how-to-increment-version-number-in-a-shell-script)
 
 ## Footnotes
 [^1]: [wc command](https://linuxize.com/post/linux-wc-command/).
