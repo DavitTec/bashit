@@ -1,0 +1,21 @@
+Unorganised Address book
+========== ========= =========== =========
+Joe Bloggs 23 123 Pencil town, Georgia.
+Jane doe, 34, Awkward pillar St., Paris
+Paul John Paul, Vatican terrace	Via Ruel 	Rome.
+========== ========= =========== =========
+
+Sample items with various Directory paths
+20M	/home/John/Development/GITHUB/Johnny/pizza/node_modules
+12M	/home/John/Development/web/bootstrap1/node_modules
+82M	/home/John/Development/web/11ty/01-base/node_modules
+150M	/home/Jane/Development/web/my-test-package (0.1.2)/node_modules
+125M	/home/John/Development/web/11ty/eleventy-sample/node_modules
+
+A mixed table  
+Date       Description       Price     tax     INstock
+24.5.22    Bucket            $ 13.00    1.1      Y
+19/5/2022  Brush             $3.00      0.78     Yes
+25 May 21  Cloth             $0.99      0.18     Yes
+23 June    Soap              $1         0.02     No
+
