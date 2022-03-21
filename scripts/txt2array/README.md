@@ -12,7 +12,7 @@ We will consider various methods and targeted formats
 1. Transform [tr](https://linuxhint.com/bash_tr_command/)
 
 For this exercise we will use the same [sample](sample.txt) test file
-with the containing we assume blocks of text. 
+with the containing we assume blocks of text.
 We assume all protential records are seperated by line feed __\nr__
 
 Various Strings in various formats
@@ -48,14 +48,15 @@ Date       Description       Price     tax     INstock
 
 ## How many lines
 
-For this we use the ```wc``` command[^1] 
+For this we use the ```wc``` command[^1]
 
 
 
-## Mark blocks 
+## Mark blocks
 
 ## References
-[#2]: wc command
+[#1]: [To learn more about Extended **Markdown**](https://wordpress.com/support/markdown-quick-reference/) for using footnotes, reference, biblio etc.
+[#2]: [How to increment version number in a shell script?](https://stackoverflow.com/questions/8653126/how-to-increment-version-number-in-a-shell-script)
 
 ## Footnotes
 [^1]: [wc command](https://linuxize.com/post/linux-wc-command/).
