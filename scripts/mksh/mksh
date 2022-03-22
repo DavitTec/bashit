@@ -8,6 +8,8 @@ version=0.0.3
 # using export <AUTHOR_EMAIL="<your email>" or
 # Change the default values here.
 #
+# TODO #3 Must add optional parameters to mksh
+
 me=$(basename "$0")
 shortdesc="Makes an Bash Shell script ($1.sh) from last $2 lines of Bash history"
 NC="\033[0m"
