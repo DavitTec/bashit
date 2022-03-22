@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+# HEADER
+# AUTHOR: David Mullins(me@davit.ie)
+# LICENSE: 2022 (C) 'DAVIT'
+# version=0.0.1
+# List the installed extensions in VSCode and creates a INSTALL script
+
+
+file="extensions.list"
+
+list=()
+while IFS='' read -r line; do list+=("$line"); done < <(exec code --list-extensions)
+
+#echo "${list[@]}"
+#echo "========================================="
+
+[[ -f "$file" ]] && rm "$file"
+
+for i in "${list[@]}"
+do
+    echo "code --list-extension $i" >> "$file"
+done
+
+exit 0
