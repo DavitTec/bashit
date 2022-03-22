@@ -1,6 +1,6 @@
 # listx
 
-A simple script to list current installed Extensions in **[VSCODE](https://code.visualstudio.com/)** and write to a install script called ```_listx_```
+A simple script to list current installed Extensions in **[VSCODE](https://code.visualstudio.com/)** and write to a install script called ```extensions.list```
 
 for the record, I have added my last extention list here.
 
