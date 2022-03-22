@@ -2,7 +2,7 @@
 
 A simple script to list current installed Extensions in **[VSCODE](https://code.visualstudio.com/)** and write to a install script called ```extensions.list```
 
-for the record, I have added my last extention list here.
+for the record, I have added my last extention list here ["extensions.list"](./scripts/code/extensions.list).
 
 I like ast some stage to setup optional install parameters like;
 - Install ALL
