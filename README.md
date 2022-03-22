@@ -45,7 +45,7 @@
 <details>
   <summary>listx</summary>
     One of the VSCode (CODE) scripts. 
-      A simple script to list current installed Extensions in **[VSCODE](https://code.visualstudio.com/)** and write to a install script called ```listx```
+      A simple script to list current installed Extensions in <a href="https://code.visualstudio.com/">VSCODE</a> and write to a install script called  <strong>listx</strong>
     
 Usage: 
   
