@@ -5,7 +5,7 @@
 # version=0.0.1
 # List the installed extensions in VSCode and creates a INSTALL script
 
-# Need to add HASHBANG and Header to output file
+#TODO Need to add HASHBANG and Header to output file
 
 
 file="extensions.list"
