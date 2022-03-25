@@ -121,6 +121,6 @@ fi
 # GIT CLONE if ALL is OK
 echo
 echo "git clone $URL $PREFIX/$OWNER/$REPO"
-echo
+git clone "$URL" "$PREFIX/$OWNER/$REPO"
 echo -e "$(date "+%Y%m%d%H%M")\t$URL\tfile://$PREFIX/$OWNER/$REPO"  >> $PREFIX/$LOG
 cat "$PREFIX/$LOG"  # FIXME  Present updated ROW or a offer LIST option
