@@ -1,0 +1,126 @@
+#! /usr/bin/env bash
+# HEADER
+# AUTHOR: David Mullins (david@davit.ie)
+# LICENSE: 2022 (C) 'DAVIT'
+version=0.0.1
+
+# Takes GIT HTML URL and creates a clone in the appropriate  place.
+#  FEATURES:
+#   - Present option to Fetch if already CLONED
+#   - Open with ATOM or vsCode
+#   - Creates a log file and updates 
+#   
+#  TODO
+#    - control verbose mode
+#    - allow open with ATOM or CODE on after new clone
+#    -  Take URL one or more
+#    -  Auto update 
+#    -  LOG to be updated with GIT status.
+#    -     what about last update data of Origin?
+#    -  Expand LOG or list file
+#    -  Add a config file.
+#    -  What about sync with other GIT reporsitories.
+#    
+
+PREFIX="$HOME/Development/GITHUB"
+URL="$1"
+# VERBOSE=0 #Default no 
+## - NOT APPLICABLE yet
+## - quiet or silent mode should not ask question
+## - see FIXME 
+LOG=repos.log
+ 
+#date "+%Y%m%d%H%M"
+
+# GET REPOLOG
+echo "#########  GIT CLONE LOCAL from URL ######"
+echo "Replicating repository from ORIGIN URL"
+echo "URL: $URL"
+REPO=$(echo "${URL##*/}" | cut -d'.' -f1)
+
+echo "REPO: $REPO"
+DIR=$(dirname "${URL}" );
+echo "DIR: $DIR"
+OWNER="${DIR##*/}"
+echo "OWNER: $OWNER"
+
+
+# If Clone already exists then set option to UPDATE/FETCH
+DIR="$PREFIX/$OWNER/$REPO"
+echo "checking ..."
+
+if [ -d "$DIR/" ]
+ then
+    echo "$DIR exists."
+
+    #check log
+    log="$PREFIX/$LOG"
+    echo "checking LOG : $log"
+      row=$(grep -n "$1" $log)
+
+      array=()
+      row=$( (echo "$row") | sed -e  "s/\([0-9]*\):\(.*\)/\1\t\2/g")
+
+      IFS=$'\t' read -r -a array <<< "$row"
+      echo
+      echo "LAST DATE: $(echo ${array[1]} | sed -e 's/^\(....\)\(..\)\(..\)\(..\)\(..\)/\3\/\2\/\1 \4:\5/g')"
+      echo "URL: ${array[2]}"
+      echo "LOCAL:  ${array[3]}"
+
+
+      echo "Do you want to FETCH instead?:y/n"
+      # FIXME Set SILENT mode to FETCH without asking
+      PS3='Do you want to FETCH instead?: '
+      options=("Git Fetch" "Open with ATOM" "Open with CODE" "Quit")
+      select opt in "${options[@]}"
+      do
+          case $opt in
+              "Git Fetch")
+                  echo "you chose Git Fetch"
+                  DIR=$(echo "${array[3]}" | sed -e "s/file:\/\/\(.*\)/\1/g")
+                  mydir=$( pwd )
+                  echo "im here at $mydir"
+                  pwd
+                  echo "CD $DIR"
+                  cd $DIR
+                  echo " DO FETCH HERE"
+                  pwd
+                  git fetch
+                  git status
+                  #FIXME  need to change DATA in LOG
+                  cd $mydir
+                  echo "im back at $mydir"
+                  break
+                  ;;
+              "Open with ATOM")
+                  echo "you chose open with ATOM"
+                  echo 
+                  DIR=$(echo "${array[3]}" | sed -e "s/file:\/\/\(.*\)/\1/g")
+                  echo "OPENING atom "$DIR""
+                  exec atom "$DIR"
+                  break
+                  ;;
+              "Open with CODE")
+                  echo "you chose open with CODE"
+                  echo 
+                  DIR=$(echo "${array[3]}" | sed -e "s/file:\/\/\(.*\)/\1/g")
+                  echo "OPENING vscode "$DIR""
+                  exec code "$DIR"
+                   break
+                  ;;
+              "QUIT")
+                  break
+                  ;;
+              *) echo "invalid option $REPLY";;
+          esac
+      done
+  echo "googbye"
+  exit 1  # file exists
+fi
+
+# GIT CLONE if ALL is OK
+echo
+echo "git clone $URL $PREFIX/$OWNER/$REPO"
+echo
+echo -e "$(date "+%Y%m%d%H%M")\t$URL\tfile://$PREFIX/$OWNER/$REPO"  >> $PREFIX/$LOG
+cat "$PREFIX/$LOG"  # FIXME  Present updated ROW or a offer LIST option
