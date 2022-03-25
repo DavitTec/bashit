@@ -73,3 +73,18 @@ This creates a LIST script ```extensions.list``` for installatino
      INSERT EXAMPLE HERE
   </div>
 </details>
+
+  
+<details>
+  <summary>gitit</summary>
+    A smallish script to git CLONE of FETCH a <URL> into a desired LOCAL Location and keeps a log.
+      Options include
+         - open with ATOM or VSCODE.
+      ```
+        gitit <URL>
+      ```
+  [more>](./scripts/gitit/gitit.md)
+  <div align="center">
+     INSERT EXAMPLE HERE
+  </div>
+</details>
