@@ -2,7 +2,7 @@
 # HEADER
 # AUTHOR: David Mullins (david@davit.ie)
 # LICENSE: 2022 (C) 'DAVIT'
-version=0.0.1
+version=0.0.2
 
 # Takes GIT HTML URL and creates a clone in the appropriate  place.
 #  FEATURES:
@@ -22,7 +22,7 @@ version=0.0.1
 #    -  What about sync with other GIT reporsitories.
 #    
 
-PREFIX="$HOME/Development/GITHUB"
+PREFIX="$HOME/development/github.com"
 URL="$1"
 # VERBOSE=0 #Default no 
 ## - NOT APPLICABLE yet
