@@ -22,6 +22,18 @@ Takes GIT HTML URL and creates a clone in the appropriate  place.
   -  Expand LOG or list file
   -  Add a config file. 
   -  What about sync with other GIT reporsitories.
+  -  Add GET OPTS
+     - show help
+     - print list of 
+         - Reposities 
+         - Owners
+         - Categories
+         - Last checked and last updated 
+     - What to do without Arguments 
+            -  OPEN list file 
+     - setup or change config
+     - MOVE Local repository
+     - Clean Local Repository ie remove builds/libs/node_modules SEE [cleanit](https://github.com/DavitTec/bashit/blob/master/scripts/cleanit.md)  
 
 ## USAGE
    \<URL\> is the url (html) copied from GITHUB Repository
