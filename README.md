@@ -1,7 +1,10 @@
 # BashIT
 
 
-##### A small collection of bash scripts to help with daily or once off chores.
+## Summary
+A small collection of bash scripts to help with daily or once off chores.
+
+These scripts and more may be included in the [dotfiles](https://github.com/DavitTec/dotfiles) bundle
 
 ## Tools
 
