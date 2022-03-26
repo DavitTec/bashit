@@ -2,10 +2,10 @@
 # HEADER
 # AUTHOR: David Mullins (david@davit.ie)
 # LICENSE: 2022 (C) 'DAVIT'
-# version=0.0.3
+# version=0.1.4
 # FIXME  Add some Options GETOPTS
 
-# Takes GIT HTML URL and creates a clone in the appropriate  place.
+# Takes GIT HTML clone_url and creates a clone in the appropriate  place.
 #  FEATURES:
 #   - Present option to Fetch if already CLONED
 #   - Open with ATOM or vsCode
@@ -14,70 +14,114 @@
 #  TODO
 #    - control verbose mode
 #    - allow open with ATOM or CODE on after new clone
-#    -  Take URL one or more
+#    -  Take clone_url one or more
 #    -  Auto update
 #    -  LOG to be updated with GIT status.
 #    -     what about last update data of Origin?
 #    -  Expand LOG or list file
 #    -  Add a config file.
 #    -  What about sync with other GIT reporsitories.
-#
+# DEPENDECIES
+#    [x] curl 
+#    [?] GITHUB account to access API   
 
-PREFIX="$HOME/development/github.com"
-URL="$1"
-# VERBOSE=0 #Default no
+## VARIABLES
+clone_url="$1"
+svn_git_url=""
+html_url=""
+array=()
+
+## CONFIG
+LOCAL_REPO="$HOME/development/github.com"
+LOG=repos.log
+#date "+%Y%m%d%H%M"  Formatting date
+
+## OPTIONS
+## - VERBOSE=0 #Default no
 ## - NOT APPLICABLE yet
 ## - quiet or silent mode should not ask question
 ## - see FIXME
-LOG=repos.log
 
-#date "+%Y%m%d%H%M"
+_get_html_url () {
+  # Get html_url from 
+  #  1_ clone_url or 
+  #  2_ ID# of db or 
+  #  3_ select
+  #  
+  # if $1 is number then lookup db or list input
+  #  else
+  clone_url=$1
+  REPO_html_url=$(echo "$clone_url" | sed -e 's|^\(.*\)\.git$|\1|g')
+  REPO=$( echo "$REPO_html_url" | cut -d'/' -f5)
+  html_url="$( dirname "$clone_url")/$REPO" 
+  OWNER_URL=$(dirname "$REPO_html_url") 
+  OWNER="${OWNER_URL##*/}" ; echo -e "func clone: $clone_url \nhtml: $html_url \nREPOurl: $REPO_html_url \nOwnerurl: $OWNER_URL \nOwner $OWNER "
+  }
 
-# GET REPOLOG
-echo "#########  GIT CLONE LOCAL from URL ######"
-echo "Replicating repository from ORIGIN URL"
-echo "URL: $URL"
-REPO=$(echo "${URL##*/}" | cut -d'.' -f1)
+#_get_git_svn () {}
+## - Get git_svn from clone_url
+#### JSON  ###############
+_gitjson () {
+  # Get JSON of repo 
+  # _gitjson (target_directory, Git_html_url )
+  # EXIT if $1 or $2= null and "curl" not installed
+ # if [ -z "$1" ] || [ ! -d "$1" ] || [ -z "$2" ]; then
+ #   echo "one or both variables are empty."
+ #   return 1
+ # fi
+  JSON=".$REPO.json"
+  API_url="https://api.github.com/repos/$OWNER/$REPO"
+  echo 'Getting JSON from GITHUB'
+  curl -H "Accept: application/vnd.github.v3+json"  $API_url > "$LOCAL_REPO/$OWNER/$REPO/$JSON"
+  
+  return 0
+}
 
-echo "REPO: $REPO"
-DIR=$(dirname "${URL}" );
-echo "DIR: $DIR"
-OWNER="${DIR##*/}"
-echo "OWNER: $OWNER"
+#### LOG  ###############
+_add_log_item() { # _add_log_line_item
+  
+  # $PREFIX must exist but do we need to test?
+  #if [ -z "$PREFIX" ] || [ -z "$OWNER" ] || [ -z "$REPO" ] ; then echo "nothing to do here" ; exit 1 ; fi
+  echo "$LOCAL_REPO -  $OWNER - $REPO - $clone_url - $LOG"
+  echo -e "$(date "+%Y%m%d%H%M")\t$clone_url\tfile://$LOCAL_REPO/$OWNER/$REPO"  >> $LOCAL_REPO/$LOG
+  return 0
+}
 
-
-# If Clone already exists then set option to UPDATE/FETCH
-DIR="$PREFIX/$OWNER/$REPO"
-echo "checking ..."
-
-if [ -d "$DIR/" ]
- then
+_read_log_item(){
+  #check log, set array() and print some values 
+  echo "checking LOG"
+  log="$LOCAL_REPO/$LOG"
+  echo "checking LOG : $log for $1"
+  row=$(grep -n "$1" $log)
+  if [  -z $row ] ; then _add_log_item ; fi
+  array=()
+  row=$( (echo "$row") | sed -e  "s/\([0-9]*\):\(.*\)/\1\t\2/g")
+  IFS=$'\t' read -r -a array <<< "$row"
+  echo "LAST DATE: $(echo ${array[1]} | sed -e 's/^\(....\)\(..\)\(..\)\(..\)\(..\)/\3\/\2\/\1 \4:\5/g')"
+  echo "clone_url: ${array[2]}"
+  echo "LOCAL:  ${array[3]}"
+}
+# _update_log_item()  
+# _delete_log_item()  
+_fetch(){ #GIT fetch and or open
+  
+  DIR=$1
+  if [ -d "$DIR/" ]
+  then
     echo "$DIR exists."
-
     #check log
-    log="$PREFIX/$LOG"
-    echo "checking LOG : $log"
-      row=$(grep -n "$1" $log)
-
-      array=()
-      row=$( (echo "$row") | sed -e  "s/\([0-9]*\):\(.*\)/\1\t\2/g")
-
-      IFS=$'\t' read -r -a array <<< "$row"
-      echo
-      echo "LAST DATE: $(echo ${array[1]} | sed -e 's/^\(....\)\(..\)\(..\)\(..\)\(..\)/\3\/\2\/\1 \4:\5/g')"
-      echo "URL: ${array[2]}"
-      echo "LOCAL:  ${array[3]}"
-
-
-      echo "Do you want to FETCH instead?:y/n"
+    _read_log_item "$DIR"
+    echo "checking log found > ${array[3]}"
+    echo "Do you want to FETCH instead?"
       # FIXME Set SILENT mode to FETCH without asking
-      PS3='Do you want to FETCH instead?: '
+      PS3='CHOOSE OPTION: '
       options=("Git Fetch" "Open with ATOM" "Open with CODE" "Quit")
       select opt in "${options[@]}"
       do
           case $opt in
               "Git Fetch")
-                  echo "you chose Git Fetch"
+                  echo "you chose Git Fetch: $clone_url"
+                  echo "do I have my Array: ${array[3]} "
                   DIR=$(echo "${array[3]}" | sed -e "s/file:\/\/\(.*\)/\1/g")
                   mydir=$( pwd )
                   echo "im here at $mydir"
@@ -91,6 +135,9 @@ if [ -d "$DIR/" ]
                   #FIXME  need to change DATA in LOG
                   cd $mydir || exit 1
                   echo "im back at $mydir"
+
+                  #let get json just in case
+                  _gitjson "$LOCAL_REPO/$OWNER/$REPO" "$html_url"
                   break
                   ;;
               "Open with ATOM")
@@ -115,13 +162,34 @@ if [ -d "$DIR/" ]
               *) echo "invalid option $REPLY";;
           esac
       done
-  echo "googbye"
-  exit 1  # file exists
-fi
+    echo "googbye"
+    exit 1  # file exists
+  fi
+}
+
+
+# GET REPOLOG
+echo "#########  GIT CLONE LOCAL from html_url ######"
+echo "Replicating repository from ORIGIN to local"
+_get_html_url "$clone_url" 
+echo "REPO: $REPO"
+echo "REPO_HTML_URL: $html_url"
+echo "OWNER: $OWNER"
+
+# If Clone already exists then set option to UPDATE/FETCH
+DIR="$LOCAL_REPO/$OWNER/$REPO" #destination
+echo "checking ...DESTINATION: $DIR"
+
+if [ -d "$DIR/" ] #WE may have a local copy already
+then
+  _fetch "$DIR"
+fi 
 
 # GIT CLONE if ALL is OK
 echo
-echo "git clone $URL $PREFIX/$OWNER/$REPO"
-git clone "$URL" "$PREFIX/$OWNER/$REPO"
-echo -e "$(date "+%Y%m%d%H%M")\t$URL\tfile://$PREFIX/$OWNER/$REPO"  >> $PREFIX/$LOG
-cat "$PREFIX/$LOG"  # FIXME  Present updated ROW or a offer LIST option
+echo "git clone $clone_url $LOCAL_REPO/$OWNER/$REPO"
+git clone "$clone_url" "$LOCAL_REPO/$OWNER/$REPO"
+_add_log_item "$clone_url"
+_gitjson "$LOCAL_REPO/$OWNER/$REPO" "$html_url"
+
+cat "$LOCAL_REPO/$LOG"  # FIXME  Present updated ROW or a offer LIST option

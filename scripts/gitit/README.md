@@ -12,6 +12,7 @@ Takes GIT HTML URL and creates a clone in the appropriate  place.
 - [X]  Creates a log file and updates 
    
 ##  TODO
+- [ ] add JSON file with repository
 - [ ] Control verbose mode
 - [ ] Allow open with ATOM or CODE on after new clone
 - [ ] FIXME:  Create subdirectors if not existing.
