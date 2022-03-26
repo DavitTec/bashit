@@ -50,8 +50,15 @@ _get_html_url () {
   #  
   # if $1 is number then lookup db or list input
   #  else
-  clone_url=$1
-  REPO_html_url=$(echo "$clone_url" | sed -e 's|^\(.*\)\.git$|\1|g')
+  TODO #  Do TEST to determine URL type
+  REPO_html_url=$1
+  if [[ "$1" =~ ^http.*\.git$  ]] 
+    then
+    clone_url="$1"
+    REPO_html_url=$(echo "$clone_url" | sed -e 's|^\(.*\)\.git$|\1|g')
+  fi
+  # [[ "$1" =~ ^git@github.*\.git$  ]] && ssh_url="$1"
+
   REPO=$( echo "$REPO_html_url" | cut -d'/' -f5)
   html_url="$( dirname "$clone_url")/$REPO" 
   OWNER_URL=$(dirname "$REPO_html_url") 
